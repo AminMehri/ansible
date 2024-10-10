@@ -3,9 +3,9 @@ Description=My Python Script Service
 After=network.target
 
 [Service]
-User=AminMehri
+User=root
 WorkingDirectory=/home/amin/Project/ansible
-ExecStart=/usr/bin/python3 /home/amin/Project/ansible/app.py
+ExecStart=/usr/bin/python /home/amin/Project/ansible/app.py
 Restart=always
 
 [Install]

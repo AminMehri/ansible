@@ -1,0 +1,46 @@
+---
+- name: Deploy Python script and systemd service
+  hosts: localhost
+  become: yes
+  connection: local
+
+  vars:
+    git_repo: "git@https://github.com/AminMehri/ansible.git"
+    dest_dir: "/home/amin/Project/ansible"
+    service_file: "my_python_script.service"
+    service_name: "my_python_script"
+
+  tasks:
+    - name: Install git
+      pacman:
+        name: git
+        state: present
+
+    - name: Clone the repository
+      git:
+        repo: "https://github.com/AminMehri/ansible.git"
+        dest: "/home/amin/Project/newansible"
+        version: main
+        force: yes
+
+    - name: Copy systemd service file to /etc/systemd/system/
+      copy:
+        src: "/home/amin/Project/newansible/my_python_script.service"
+        dest: "/etc/systemd/system/my_python_script.service"
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Reload systemd to apply new service
+      command: systemctl daemon-reload
+
+    - name: Enable the service to start at boot
+      systemd:
+        name: "my_python_script"
+        enabled: yes
+
+    - name: Start the service
+      systemd:
+        name: "my_python_script"
+        state: started
+
