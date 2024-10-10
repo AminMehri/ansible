@@ -5,9 +5,10 @@ After=network.target
 [Service]
 User=root
 WorkingDirectory=/home/amin/Project/ansible
-ExecStart=/usr/bin/python /home/amin/Project/ansible/app.py
+ExecStart=/usr/bin/python3 /home/amin/Project/ansible/app.py
 Restart=always
+StandardOutput=journal
+StandardError=journal
 
 [Install]
 WantedBy=multi-user.target
-
